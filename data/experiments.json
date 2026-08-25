@@ -1,3 +1,23 @@
 {
-  "experiments": []
+  "experiments": [
+    {
+      "id": 2,
+      "slug": "newtons-rings",
+      "title": "Newton's Rings",
+      "aim": "Determine the radius of curvature of a plano-convex lens using Newton's ring method with monochromatic sodium light.",
+      "source": "PH-161 Physics Lab manual",
+      "wavelength_nm": 589.3,
+      "lens_radius_range_mm": [750, 1500],
+      "microscope_least_count_mm": 0.01,
+      "main_scale_division_mm": 0.5,
+      "vernier_divisions": 50,
+      "ring_type_measured": "bright",
+      "ring_orders": [1,2,3,4,5,6,7,8,9,10],
+      "pair_separation_m": 5,
+      "pairs": [[10,5],[9,4],[8,3],[7,2],[6,1]],
+      "working_formula": "R = (D_(n+m)^2 - D_n^2)/(4*m*lambda)",
+      "air_film_refractive_index": 1,
+      "simulation": "experiments/newtons-ring-virtual.html"
+    }
+  ]
 }
