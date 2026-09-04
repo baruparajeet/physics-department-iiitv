@@ -27,10 +27,7 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   updatePhysics();
 })();
 
-/* New cinematic full-page physics background
-   Original animation removed. This background uses a restrained scientific
-   visual language: waves, particles, field lines, light/spectrum and depth.
-*/
+/* New cinematic full-page physics background — original scene-based renderer */
 (() => {
   const canvas=document.getElementById('physicsCanvas');
   if(!canvas) return;
@@ -38,106 +35,87 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   canvas.classList.add('site-physics-canvas');
   const ctx=canvas.getContext('2d');
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let w=0,h=0,dpr=1,t=0,last=performance.now(),scroll=0,targetScroll=0;
-
-  const dots=Array.from({length:110},()=>({
-    x:Math.random(), y:Math.random(), z:.15+Math.random()*.85,
-    vx:(Math.random()-.5)*.012, vy:(Math.random()-.5)*.006,
-    r:.6+Math.random()*1.8
-  }));
-
-  function resize(){
-    w=innerWidth; h=innerHeight; dpr=Math.min(devicePixelRatio||1,2);
-    canvas.width=w*dpr; canvas.height=h*dpr;
-    canvas.style.width=w+'px'; canvas.style.height=h+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  function line(x1,y1,x2,y2,a=.12){
-    ctx.strokeStyle='rgba(35,105,155,'+a+')';
-    ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
-  }
-  function wave(y,amp,len,phase,alpha,width=1){
-    ctx.strokeStyle='rgba(25,125,190,'+alpha+')';ctx.lineWidth=width;
-    ctx.beginPath();
-    for(let x=-20;x<=w+20;x+=4){
-      const yy=y+Math.sin(x/len-phase)*amp;
-      x===-20?ctx.moveTo(x,yy):ctx.lineTo(x,yy);
-    }
-    ctx.stroke();
-  }
+  let w=0,h=0,dpr=1,t=0,last=performance.now(),pageP=0;
+  const P=Array.from({length:150},()=>({x:Math.random(),y:Math.random(),z:.15+Math.random()*.85,s:Math.random()*6.28}));
+  function resize(){w=innerWidth;h=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=w*dpr;canvas.height=h*dpr;canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+  function stroke(style,width=1){ctx.strokeStyle=style;ctx.lineWidth=width}
+  function wave(y,amp,len,phase,alpha){stroke('rgba(32,120,180,'+alpha+')',1.5);ctx.beginPath();for(let x=-30;x<=w+30;x+=3){let yy=y+Math.sin(x/len-phase)*amp;if(x<0)ctx.moveTo(x,yy);else ctx.lineTo(x,yy)}ctx.stroke()}
   function draw(now){
-    const dt=Math.min(.04,(now-last)/1000); last=now; t+=dt;
-    targetScroll=scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight);
-    scroll+=(targetScroll-scroll)*.035;
+    const dt=Math.min(.035,(now-last)/1000);last=now;t+=dt;
+    const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+    pageP+=(scrollY/max-pageP)*.025;
     ctx.clearRect(0,0,w,h);
 
-    // Deep, almost invisible scientific grid.
-    const grid=56;
-    for(let x=(t*5)%grid;x<w;x+=grid) line(x,0,x,h,.035);
-    for(let y=(t*2)%grid;y<h;y+=grid) line(0,y,w,y,.035);
-
-    // Large slow travelling waves — the main visual signature.
-    wave(h*.25,34,170,t*.75,.18,1.4);
-    wave(h*.48,52,230,-t*.55,.13,1.2);
-    wave(h*.72,30,145,t*.9,.11,1);
-
-    // Optical light beam sweeping gently through the field.
-    const beamY=h*(.36+Math.sin(t*.18)*.08);
-    const grad=ctx.createLinearGradient(0,beamY,w,beamY);
-    grad.addColorStop(0,'rgba(45,150,220,0)');
-    grad.addColorStop(.35,'rgba(45,150,220,.03)');
-    grad.addColorStop(.7,'rgba(45,150,220,.14)');
-    grad.addColorStop(1,'rgba(45,150,220,0)');
-    ctx.strokeStyle=grad;ctx.lineWidth=3;
-    ctx.beginPath();ctx.moveTo(0,beamY);ctx.lineTo(w,beamY-35);ctx.stroke();
-
-    // Field-line arcs create depth without dominating the content.
-    const cx=w*(.72-scroll*.12),cy=h*.50;
-    for(let i=0;i<7;i++){
-      ctx.strokeStyle='rgba(35,115,170,'+(.055+i*.009)+')';
-      ctx.lineWidth=1;
-      ctx.beginPath();
-      ctx.ellipse(cx,cy,100+i*55,45+i*27,t*.04+i*.18,0,Math.PI*2);
-      ctx.stroke();
+    // NASA-like depth: a very restrained star/particle field.
+    for(const p of P){
+      p.x+=dt*(.004+.006*p.z); p.s+=dt*.4;
+      if(p.x>1.05)p.x=-.05;
+      const x=p.x*w, y=((p.y-pageP*.16*p.z)%1+1)%1*h;
+      const a=.035+.09*p.z*(.65+.35*Math.sin(p.s));
+      ctx.fillStyle='rgba(25,105,165,'+a+')';
+      ctx.beginPath();ctx.arc(x,y,.5+1.5*p.z,0,Math.PI*2);ctx.fill();
     }
 
-    // Particle field with subtle parallax as the page scrolls.
-    for(const p of dots){
-      p.x+=p.vx*dt*60; p.y+=p.vy*dt*60;
-      if(p.x<-.05)p.x=1.05;if(p.x>1.05)p.x=-.05;
-      if(p.y<-.05)p.y=1.05;if(p.y>1.05)p.y=-.05;
-      const px=p.x*w, py=(p.y-scroll*.12*p.z)*h;
-      const pulse=.65+.35*Math.sin(t*1.4+p.x*12);
-      ctx.fillStyle='rgba(30,115,175,'+(0.10*p.z*pulse)+')';
-      ctx.beginPath();ctx.arc(px,py,p.r*p.z,0,Math.PI*2);ctx.fill();
+    // SPIE-inspired optics: travelling EM waves and a moving photon packet.
+    wave(h*.24,26,150,t*.55,.14);
+    wave(h*.48,40,205,-t*.42,.11);
+    wave(h*.73,24,125,t*.72,.08);
+    const photonX=((t*.08)%1)*(w+300)-150;
+    const photonY=h*.48+Math.sin(t*.65)*28;
+    const beam=ctx.createLinearGradient(photonX-180,photonY,photonX+30,photonY);
+    beam.addColorStop(0,'rgba(55,160,220,0)');beam.addColorStop(.75,'rgba(55,160,220,.16)');beam.addColorStop(1,'rgba(55,160,220,0)');
+    ctx.strokeStyle=beam;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(photonX-180,photonY);ctx.lineTo(photonX+30,photonY);ctx.stroke();
+    ctx.fillStyle='rgba(45,150,215,.24)';ctx.beginPath();ctx.arc(photonX,photonY,3,0,Math.PI*2);ctx.fill();
+
+    // Scene engine: the background subtly changes as the visitor scrolls.
+    const scene=pageP*4;
+    const sceneIndex=Math.floor(scene);
+    const local=scene-sceneIndex;
+    ctx.save();
+    ctx.globalAlpha=.65;
+
+    // Atomic / quantum scene.
+    const ax=w*(.74-.08*local), ay=h*(.40+.10*local);
+    for(let i=0;i<6;i++){
+      ctx.save();ctx.translate(ax,ay);ctx.rotate(t*.035+i*.52+local);
+      stroke('rgba(40,115,170,'+(.045+i*.012)+')');
+      ctx.beginPath();ctx.ellipse(0,0,70+i*34,28+i*15,0,0,Math.PI*2);ctx.stroke();ctx.restore();
+    }
+    const pulse=18+8*Math.sin(t*1.5);
+    const rg=ctx.createRadialGradient(ax,ay,0,ax,ay,45+pulse);
+    rg.addColorStop(0,'rgba(55,150,215,.22)');rg.addColorStop(1,'rgba(55,150,215,0)');
+    ctx.fillStyle=rg;ctx.beginPath();ctx.arc(ax,ay,45+pulse,0,Math.PI*2);ctx.fill();
+
+    // Quantum probability cloud.
+    const qx=w*(.28+.12*Math.sin(t*.11)), qy=h*(.64+.05*Math.sin(t*.18));
+    for(let i=0;i<24;i++){
+      const ang=i*.73+t*.08, r=28+((i*17)%80);
+      const x=qx+Math.cos(ang)*r, y=qy+Math.sin(ang)*r*.55;
+      ctx.fillStyle='rgba(75,130,190,'+(.018+.012*(i%4))+')';
+      ctx.beginPath();ctx.arc(x,y,5+(i%3)*3,0,Math.PI*2);ctx.fill();
     }
 
-    // Subtle photon trail moving across the screen.
-    for(let i=0;i<8;i++){
-      const q=(t*.045+i/8)%1;
-      const x=q*(w+240)-120;
-      const y=h*.58+Math.sin(q*Math.PI*5+t*.15)*45;
-      ctx.fillStyle='rgba(35,145,205,.20)';
-      ctx.beginPath();ctx.arc(x,y,2.2,0,Math.PI*2);ctx.fill();
-      line(x-45,y+8,x-5,y,.06);
+    // Field-line system.
+    const fx=w*(.18+.55*local), fy=h*.58;
+    for(let i=-4;i<=4;i++){
+      stroke('rgba(35,115,170,'+(.035+Math.abs(i)*.008)+')');
+      ctx.beginPath();ctx.moveTo(fx-280,fy+i*35);
+      ctx.bezierCurveTo(fx-120,fy-100+i*18,fx+120,fy+100-i*18,fx+280,fy+i*35);ctx.stroke();
     }
 
-    // Spectrum: a restrained optical signature near the lower field.
-    const sx=w*.68, sy=h*.86, sw=Math.min(300,w*.25);
-    const bands=['rgba(190,70,90,.11)','rgba(220,135,60,.11)','rgba(225,190,65,.11)','rgba(70,155,105,.11)','rgba(65,125,190,.11)','rgba(110,80,170,.11)'];
-    bands.forEach((col,i)=>{ctx.fillStyle=col;ctx.fillRect(sx+i*sw/6,sy,sw/6-2,4);});
+    // Spectrum signature.
+    const sx=w*.62, sy=h*.86, sw=Math.min(340,w*.30);
+    const spec=['190,70,90','225,130,55','225,195,55','70,155,100','65,125,195','105,80,175'];
+    spec.forEach((rgb,i)=>{ctx.fillStyle='rgba('+rgb+',.11)';ctx.fillRect(sx+i*sw/6,sy,sw/6-3,5)});
+    ctx.restore();
 
-    // Very faint mathematical notation, positioned away from the main copy.
-    ctx.font='12px Georgia,serif';ctx.fillStyle='rgba(30,100,150,.12)';
-    ['E = hf','λ = h/p','∇ · E = ρ/ε₀','ΔxΔp ≥ ℏ/2'].forEach((s,i)=>{
-      ctx.fillText(s,w*.06+(i%2)*w*.16,h*(.30+Math.floor(i/2)*.18));
-    });
+    // Tiny equations in negative space, not over the primary copy.
+    ctx.font='12px Georgia,serif';ctx.fillStyle='rgba(25,95,145,.10)';
+    ['E = hf','λ = h/p','∇ × E = −∂B/∂t','ΔxΔp ≥ ℏ/2'].forEach((s,i)=>ctx.fillText(s,w*.06+(i%2)*w*.17,h*(.30+Math.floor(i/2)*.20)));
 
-    if(!reduce) requestAnimationFrame(draw);
+    if(!reduce)requestAnimationFrame(draw);
   }
-  addEventListener('resize',resize);
-  addEventListener('scroll',()=>{scrollY&&(scroll=scroll)}, {passive:true});
-  resize();draw(performance.now());
+  addEventListener('resize',resize);resize();draw(performance.now());
 })();
 /* Compact homepage / click-to-open section navigation */
 (() => {
