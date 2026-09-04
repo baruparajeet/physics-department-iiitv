@@ -275,6 +275,13 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
     if(!a) return;
     const id=a.getAttribute('href').slice(1);
     if(!valid.has(id)) return;
+    // News/Notices are intentionally part of the homepage flow.
+    if((id === 'news' || id === 'notices') && document.body.classList.contains('page-home')){
+      e.preventDefault();
+      const target=document.getElementById(id === 'notices' ? 'notices' : 'news');
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      return;
+    }
     e.preventDefault();
     history.pushState(null,'','#'+id);
     route();
