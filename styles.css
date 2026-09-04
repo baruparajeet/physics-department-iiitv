@@ -135,3 +135,24 @@ body.page-home .quick{
   body.page-home .hero-physics .hero-text{max-width:335px;font-size:13px;line-height:1.55}
   body.page-home .hero-physics .hero-actions{margin-top:14px}
 }
+
+/* Homepage keeps a natural, useful scroll: Hero → quick links → News/Notices/Events → Contact */
+body.page-home .section{display:none}
+body.page-home #news{display:block}
+body.page-home .footer{display:block}
+body.page-home .hero-physics{min-height:620px !important;height:auto !important;max-height:none !important}
+body.page-home .hero-physics .hero-content{min-height:620px}
+body.page-view .hero-physics,
+body.page-view .quick,
+body.page-view > main > .section:not(.view-active),
+body.page-view .footer{display:none}
+body.page-view > main > .section.view-active{display:block;min-height:calc(100vh - 150px)}
+body.page-view .footer.view-active{display:block}
+@media(max-width:760px){
+ body.page-home .hero-physics{min-height:590px !important}
+ body.page-home .hero-physics .hero-content{min-height:590px}
+}
+@media(max-width:480px){
+ body.page-home .hero-physics{min-height:550px !important}
+ body.page-home .hero-physics .hero-content{min-height:550px}
+}
