@@ -54,3 +54,12 @@ body.page-view{scroll-behavior:auto}
 @media(max-width:760px){
  body.page-view .section{min-height:calc(100vh - 120px);padding-top:34px}
 }
+
+body.page-view .section:not(.view-active){display:none}
+body.page-view .footer:not(.view-active){display:none}
+body.page-home .hero-physics{height:calc(100vh - 245px);min-height:480px;max-height:700px}
+body.page-home .quick{margin-bottom:18px}
+@media(max-width:760px){
+ body.page-home .hero-physics{height:calc(100vh - 225px);min-height:430px;max-height:560px}
+ body.page-home .quick{display:grid;grid-template-columns:repeat(2,1fr)}
+}
