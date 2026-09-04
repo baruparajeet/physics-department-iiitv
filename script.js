@@ -237,3 +237,41 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   window.addEventListener('scroll',()=>{ if(reduce){scrollP=physicsProgress();} },{passive:true});
   resize(); draw(performance.now());
 })();
+
+/* Compact homepage / click-to-open section navigation */
+(() => {
+  const valid = new Set(['about','people','research','facilities','lab','resources','news','notices','contact']);
+  const home = () => {
+    document.body.classList.add('page-home');
+    document.body.classList.remove('page-view');
+    document.querySelectorAll('main > .section, footer').forEach(el => el.classList.remove('view-active'));
+    window.scrollTo(0,0);
+    document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === 'index.html'));
+  };
+  const openView = id => {
+    const target=document.getElementById(id);
+    if(!target){ home(); return; }
+    document.body.classList.remove('page-home');
+    document.body.classList.add('page-view');
+    document.querySelectorAll('main > .section, footer').forEach(el => el.classList.remove('view-active'));
+    target.classList.add('view-active');
+    document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+    window.scrollTo({top:0,left:0,behavior:'auto'});
+  };
+  const route = () => {
+    const id=location.hash.replace('#','').trim();
+    if(valid.has(id)) openView(id); else home();
+  };
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('a[href^="#"]');
+    if(!a) return;
+    const id=a.getAttribute('href').slice(1);
+    if(!valid.has(id)) return;
+    e.preventDefault();
+    history.pushState(null,'','#'+id);
+    route();
+  });
+  window.addEventListener('popstate',route);
+  window.addEventListener('hashchange',route);
+  route();
+})();
