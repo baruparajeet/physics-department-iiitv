@@ -190,3 +190,22 @@ header,main,footer{
   #physicsCanvas.site-physics-canvas{opacity:.22 !important}
   body:before{background:rgba(255,255,255,.66)}
 }
+
+/* Let the site-wide physics field remain visible throughout the entire document */
+main{background:transparent !important}
+.section,.section-soft{background:rgba(246,249,252,.58) !important}
+.panel,.quick,.stats div,.image-card,.people-placeholder div,.resource-list a{
+  background:rgba(255,255,255,.82) !important;
+  backdrop-filter:blur(2px);
+}
+.footer{background:rgba(16,34,56,.88) !important}
+.site-header{background:rgba(255,255,255,.94) !important}
+#physicsCanvas.site-physics-canvas{
+  opacity:.34 !important;
+  mix-blend-mode:multiply;
+}
+body:before{background:rgba(255,255,255,.42) !important}
+@media(max-width:760px){
+  #physicsCanvas.site-physics-canvas{opacity:.26 !important}
+  body:before{background:rgba(255,255,255,.48) !important}
+}
