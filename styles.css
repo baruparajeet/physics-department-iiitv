@@ -420,3 +420,44 @@ body.page-home .hero-physics .btn.ghost{
   border-color:rgba(180,225,250,.45)!important;text-shadow:none!important;
 }
 body.page-home .hero-scroll-hint{color:rgba(235,248,255,.82)!important}
+
+/* === Galaxy background persists across every section/tab === */
+html,body{background:#010309!important}
+#physicsCanvas.site-physics-canvas{
+ position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;
+ z-index:0!important;display:block!important;visibility:visible!important;
+ opacity:1!important;pointer-events:none!important;background:#010309!important;
+}
+.site-header{
+ position:relative!important;z-index:20!important;
+ background:rgba(2,7,14,.94)!important;color:#f5fbff!important;
+}
+main,footer{position:relative!important;z-index:2!important;background:transparent!important}
+body.page-view main,
+body.page-view main > .section,
+body.page-view .section,
+body.page-view .section-soft,
+body.page-view .section-alt,
+body.page-view .content,
+body.page-view .container{background:transparent!important}
+body.page-view .section{color:#f5fbff!important}
+body.page-view .section h1,
+body.page-view .section h2,
+body.page-view .section h3,
+body.page-view .section h4,
+body.page-view .section p,
+body.page-view .section li,
+body.page-view .section label,
+body.page-view .section dt,
+body.page-view .section dd{color:#f5fbff!important}
+body.page-view .section .panel,
+body.page-view .section .card,
+body.page-view .section .experiment-card,
+body.page-view .section .resource-card{
+ background:rgba(3,12,19,.70)!important;
+ color:#f5fbff!important;
+ border-color:rgba(180,220,245,.20)!important;
+ backdrop-filter:blur(7px)!important;
+}
+body.page-view .section a{color:#75d0ff!important}
+body.page-view footer{background:rgba(2,7,14,.94)!important;color:#f5fbff!important}
