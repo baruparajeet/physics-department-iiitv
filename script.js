@@ -247,11 +247,16 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   const home = () => {
     document.body.classList.add('page-home');
     document.body.classList.remove('page-view');
-    document.querySelectorAll('main > .section, footer').forEach(el => {
+    document.querySelectorAll('main > .section').forEach(el => {
       el.classList.remove('view-active');
-      el.style.display = 'none';
+      el.style.display = el.id === 'news' ? 'block' : 'none';
     });
-    window.scrollTo(0,0);
+    const footer = document.querySelector('footer');
+    if (footer) {
+      footer.classList.remove('view-active');
+      footer.style.display = 'block';
+    }
+    window.scrollTo({top:0,left:0,behavior:'auto'});
     document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === 'index.html'));
   };
   const openView = id => {
@@ -278,6 +283,7 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
     if(!a) return;
     const id=a.getAttribute('href').slice(1);
     if(!valid.has(id)) return;
+    if(id === 'home') { e.preventDefault(); history.pushState(null,'',location.pathname); home(); return; }
     // News/Notices are intentionally part of the homepage flow.
     if((id === 'news' || id === 'notices') && document.body.classList.contains('page-home')){
       e.preventDefault();
