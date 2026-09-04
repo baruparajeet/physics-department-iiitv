@@ -244,19 +244,25 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   const home = () => {
     document.body.classList.add('page-home');
     document.body.classList.remove('page-view');
-    document.querySelectorAll('main > .section, footer').forEach(el => el.classList.remove('view-active'));
+    document.querySelectorAll('main > .section, footer').forEach(el => {
+      el.classList.remove('view-active');
+      el.style.display = 'none';
+    });
     window.scrollTo(0,0);
     document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === 'index.html'));
   };
   const openView = id => {
-    // Notices lives inside the News view; opening it should open that whole view.
     if(id === 'notices') id = 'news';
     const target=document.getElementById(id);
     if(!target){ home(); return; }
     document.body.classList.remove('page-home');
     document.body.classList.add('page-view');
-    document.querySelectorAll('main > .section, footer').forEach(el => el.classList.remove('view-active'));
+    document.querySelectorAll('main > .section, footer').forEach(el => {
+      el.classList.remove('view-active');
+      el.style.display = 'none';
+    });
     target.classList.add('view-active');
+    target.style.display = 'block';
     document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
     window.scrollTo({top:0,left:0,behavior:'auto'});
   };
