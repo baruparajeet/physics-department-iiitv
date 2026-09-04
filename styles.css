@@ -209,3 +209,22 @@ body:before{background:rgba(255,255,255,.42) !important}
   #physicsCanvas.site-physics-canvas{opacity:.26 !important}
   body:before{background:rgba(255,255,255,.48) !important}
 }
+
+/* === Unified scientific background: inspired by multiple references === */
+#physicsCanvas.site-physics-canvas{
+  position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;
+  z-index:0!important;opacity:.20!important;pointer-events:none!important;
+}
+body:before{background:rgba(255,255,255,.72)!important;z-index:1!important}
+.site-header,main,footer{position:relative;z-index:2}
+.hero-physics .physics-stage{background:transparent!important}
+.hero-physics .physics-stage> :not(#physicsCanvas){display:none!important}
+.section,.section-soft{background:rgba(246,249,252,.72)!important}
+.panel,.quick,.stats div,.image-card,.people-placeholder div,.resource-list a{
+ background:rgba(255,255,255,.88)!important;backdrop-filter:blur(3px)
+}
+.footer{background:rgba(16,34,56,.94)!important}
+@media(max-width:760px){
+ #physicsCanvas.site-physics-canvas{opacity:.15!important}
+ body:before{background:rgba(255,255,255,.78)!important}
+}
