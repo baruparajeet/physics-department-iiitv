@@ -249,6 +249,8 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
     document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === 'index.html'));
   };
   const openView = id => {
+    // Notices lives inside the News view; opening it should open that whole view.
+    if(id === 'notices') id = 'news';
     const target=document.getElementById(id);
     if(!target){ home(); return; }
     document.body.classList.remove('page-home');
