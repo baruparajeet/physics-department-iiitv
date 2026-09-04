@@ -150,61 +150,48 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)requestAnimationFrame(frame);
  }
  addEventListener('resize',resize);resize();frame(performance.now());
-})();/* Compact homepage / click-to-open section navigation */
+})();/* Compact homepage / click-to-open section navigation — robust */
 (() => {
-  const valid = new Set(['about','people','research','facilities','lab','resources','news','notices','contact']);
-  const home = () => {
-    document.body.classList.add('page-home');
-    document.body.classList.remove('page-view');
-    document.querySelectorAll('main > .section').forEach(el => {
-      el.classList.remove('view-active');
-      el.style.display = el.id === 'news' ? 'block' : 'none';
-    });
-    const footer = document.querySelector('footer');
-    if (footer) {
-      footer.classList.remove('view-active');
-      footer.style.display = 'block';
-    }
-    window.scrollTo({top:0,left:0,behavior:'auto'});
-    document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === 'index.html'));
-  };
-  const openView = id => {
-    if(id === 'notices') id = 'news';
-    const target=document.getElementById(id);
-    if(!target){ home(); return; }
-    document.body.classList.remove('page-home');
-    document.body.classList.add('page-view');
-    document.querySelectorAll('main > .section, footer').forEach(el => {
-      el.classList.remove('view-active');
-      el.style.display = 'none';
-    });
-    target.classList.add('view-active');
-    target.style.display = 'block';
-    document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
-    window.scrollTo({top:0,left:0,behavior:'auto'});
-  };
-  const route = () => {
-    const id=location.hash.replace('#','').trim();
-    if(valid.has(id)) openView(id); else home();
-  };
-  document.addEventListener('click',e=>{
-    const a=e.target.closest('a[href^="#"]');
-    if(!a) return;
-    const id=a.getAttribute('href').slice(1);
-    if(!valid.has(id)) return;
-    if(id === 'home') { e.preventDefault(); history.pushState(null,'',location.pathname); home(); return; }
-    // News/Notices are intentionally part of the homepage flow.
-    if((id === 'news' || id === 'notices') && document.body.classList.contains('page-home')){
-      e.preventDefault();
-      const target=document.getElementById(id === 'notices' ? 'notices' : 'news');
-      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
-      return;
-    }
-    e.preventDefault();
-    history.pushState(null,'','#'+id);
-    route();
-  });
-  window.addEventListener('popstate',route);
-  window.addEventListener('hashchange',route);
-  route();
+ const ids=['about','people','research','facilities','lab','resources','contact'];
+ const homeSections=()=>document.querySelectorAll('main > .section');
+ function setHome(){
+   document.body.classList.remove('page-view');
+   document.body.classList.add('page-home');
+   homeSections().forEach(s=>s.style.display=(s.id==='news'?'block':'none'));
+   const footer=document.querySelector('footer'); if(footer) footer.style.display='block';
+   document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='index.html'));
+   window.scrollTo(0,0);
+ }
+ function setView(id){
+   const target=document.getElementById(id); if(!target){setHome();return;}
+   document.body.classList.remove('page-home');
+   document.body.classList.add('page-view');
+   homeSections().forEach(s=>{s.classList.remove('view-active');s.style.display='none'});
+   target.classList.add('view-active');target.style.display='block';
+   const footer=document.querySelector('footer'); if(footer) footer.style.display=(id==='contact'?'block':'none');
+   document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));
+   window.scrollTo(0,0);
+ }
+ function navigate(){
+   const id=location.hash.replace(/^#/,'');
+   if(ids.includes(id)||id==='news'||id==='notices') setView(id==='notices'?'news':id); else setHome();
+ }
+ document.addEventListener('click',e=>{
+   const a=e.target.closest('a'); if(!a)return;
+   const href=a.getAttribute('href')||'';
+   if(href==='index.html'){e.preventDefault();history.pushState(null,'',location.pathname);setHome();return}
+   if(!href.startsWith('#'))return;
+   const id=href.slice(1);
+   if(id==='news'||id==='notices'){
+     if(document.body.classList.contains('page-home')){e.preventDefault();document.getElementById(id==='notices'?'notices':'news')?.scrollIntoView({behavior:'smooth'});}
+     return;
+   }
+   if(!ids.includes(id))return;
+   e.preventDefault();
+   history.pushState(null,'','#'+id);
+   setView(id);
+ });
+ window.addEventListener('popstate',navigate);
+ window.addEventListener('hashchange',navigate);
+ navigate();
 })();
