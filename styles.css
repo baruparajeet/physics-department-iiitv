@@ -63,3 +63,24 @@ body.page-home .quick{margin-bottom:18px}
  body.page-home .hero-physics{height:calc(100vh - 225px);min-height:430px;max-height:560px}
  body.page-home .quick{display:grid;grid-template-columns:repeat(2,1fr)}
 }
+
+/* Final mobile homepage layout fix: keep hero content and option cards separated */
+body.page-home .hero-physics{height:520px;min-height:520px;max-height:none}
+body.page-home .hero-physics .hero-content{align-items:flex-start;padding-top:42px;padding-bottom:30px}
+body.page-home .hero-physics .hero-copy{max-width:calc(100% - 10px)}
+body.page-home .hero-physics .hero-text{max-width:470px;margin-bottom:0}
+body.page-home .quick{margin-top:0}
+@media(max-width:760px){
+ body.page-home .hero-physics{height:500px;min-height:500px}
+ body.page-home .hero-physics .hero-content{padding-top:32px;align-items:flex-start}
+ body.page-home .hero-physics .hero-copy{max-width:100%}
+ body.page-home .hero-physics .hero-text{font-size:14px;line-height:1.55;max-width:360px}
+ body.page-home .hero-physics .hero-actions{margin-top:18px}
+ body.page-home .quick{margin-top:0}
+}
+@media(max-width:480px){
+ body.page-home .hero-physics{height:470px;min-height:470px}
+ body.page-home .hero-physics .hero-content{padding-top:25px}
+ body.page-home .hero-physics .hero-text{max-width:330px;font-size:13px}
+ body.page-home .hero-physics .hero-actions{margin-top:14px}
+}
