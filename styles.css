@@ -461,3 +461,171 @@ body.page-view .section .resource-card{
 }
 body.page-view .section a{color:#75d0ff!important}
 body.page-view footer{background:rgba(2,7,14,.94)!important;color:#f5fbff!important}
+
+/* === SITE-WIDE GALAXY READABILITY / CONTRAST PASS ===
+   Keep the animated canvas as the bottom visual layer and make every UI surface
+   intentionally translucent/dark enough for readable foreground content.
+*/
+html,body{background:#010309!important}
+body{color:#eef7ff!important}
+
+/* Header: never revert to the old white header on section views. */
+.site-header{
+ position:sticky!important;top:0!important;z-index:20!important;
+ background:rgba(2,7,14,.94)!important;
+ color:#f5fbff!important;
+ border-bottom:1px solid rgba(180,220,245,.20)!important;
+ backdrop-filter:blur(10px)!important;
+}
+.site-header .brand-main,
+.site-header .brand-sub,
+.site-header .department-title,
+.site-header .department-title small,
+.site-header .utility-links,
+.site-header .utility-links a,
+.site-header .nav a{color:#f5fbff!important}
+.site-header .brand-sub,.site-header .department-title small,.site-header .utility-links{opacity:.78}
+.site-header .brand-mark:before{border-color:#dff5ff!important}
+.site-header .brand-mark span{background:#dff5ff!important}
+.site-header .nav{background:rgba(2,7,14,.72)!important}
+.site-header .nav a{border-bottom-color:transparent!important}
+.site-header .nav a:hover,.site-header .nav a.active{
+ color:#65c8ff!important;border-bottom-color:#2b9ddd!important
+}
+.site-header .search{
+ background:rgba(255,255,255,.07)!important;
+ border-color:rgba(220,240,255,.24)!important
+}
+.site-header .search input{background:transparent!important;color:#fff!important}
+.site-header .search input::placeholder{color:rgba(235,245,255,.62)!important}
+.site-header .search span{color:#dff5ff!important}
+
+/* Fixed animation layer: behind all content on every route/view. */
+#physicsCanvas.site-physics-canvas{
+ position:fixed!important;inset:0!important;
+ width:100vw!important;height:100vh!important;
+ z-index:0!important;display:block!important;visibility:visible!important;
+ opacity:1!important;pointer-events:none!important;
+}
+main,footer{position:relative!important;z-index:2!important}
+main:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:rgba(0,5,12,.16)}
+
+/* Section views: remove opaque legacy backgrounds. */
+body.page-view .section,
+body.page-view .section-soft,
+body.page-view .section-dark,
+body.page-view .section.view-active{
+ background:transparent!important;
+ color:#f5fbff!important;
+}
+body.page-view .section-title h2,
+body.page-view .section-title p:not(.eyebrow),
+body.page-view .section h1,
+body.page-view .section h2,
+body.page-view .section h3,
+body.page-view .section h4,
+body.page-view .section p,
+body.page-view .section li,
+body.page-view .section span,
+body.page-view .section label,
+body.page-view .section strong{color:#f5fbff!important}
+body.page-view .section-title p:not(.eyebrow),
+body.page-view .section p{color:rgba(235,245,255,.78)!important}
+body.page-view .eyebrow{color:#65c8ff!important}
+
+/* Cards/panels: no white-on-white combinations anywhere. */
+body.page-view .panel,
+body.page-view .image-card,
+body.page-view .people-placeholder div,
+body.page-view .resource-list a,
+body.page-view .facility,
+body.page-view .stats div{
+ background:rgba(4,14,24,.78)!important;
+ color:#f5fbff!important;
+ border:1px solid rgba(180,220,245,.20)!important;
+ box-shadow:0 18px 50px rgba(0,0,0,.20)!important;
+ backdrop-filter:blur(8px)!important;
+}
+body.page-view .image-card h3,
+body.page-view .image-card p,
+body.page-view .people-placeholder strong,
+body.page-view .people-placeholder span,
+body.page-view .resource-list a,
+body.page-view .facility h3,
+body.page-view .facility p,
+body.page-view .stats strong,
+body.page-view .stats span,
+body.page-view .panel-head h2,
+body.page-view .panel-head a,
+body.page-view .news-item h3,
+body.page-view .news-item p,
+body.page-view .notice-list li,
+body.page-view .notice-list b,
+body.page-view .notice-list span,
+body.page-view .event h3,
+body.page-view .event p{color:#f5fbff!important}
+body.page-view .image-card p,
+body.page-view .facility p,
+body.page-view .people-placeholder span,
+body.page-view .stats span,
+body.page-view .news-item p,
+body.page-view .notice-list span,
+body.page-view .event p{color:rgba(235,245,255,.72)!important}
+body.page-view .image-card a,
+body.page-view .facility a,
+body.page-view .resource-list a:hover,
+body.page-view .panel-head a,
+body.page-view .text-link{color:#70d0ff!important}
+body.page-view .stats{background:rgba(180,220,245,.18)!important}
+
+/* Research artwork remains light/blue, while its text area is dark and readable. */
+body.page-view .image-card .science-art{opacity:.95}
+body.page-view .image-card h3{font-size:17px;line-height:1.35}
+
+/* Laboratory already uses a dark visual language; keep it consistent. */
+body.page-view .section-dark .experiment-card{
+ background:rgba(4,14,24,.72)!important;
+ color:#fff!important;
+}
+body.page-view .section-dark .experiment-card h3,
+body.page-view .section-dark .experiment-card small{color:#fff!important}
+body.page-view .section-dark .experiment-card small{color:#a8c2d6!important}
+
+/* Footer/contact stays readable and visually integrated. */
+body.page-view .footer,
+body.page-home .footer{
+ background:rgba(2,7,14,.96)!important;
+ color:#dff2ff!important;
+ border-top:1px solid rgba(180,220,245,.16)!important;
+}
+.footer h3,.footer h4,.footer .footer-brand{color:#fff!important}
+.footer p,.footer a{color:#b9cddd!important}
+.footer a:hover{color:#70d0ff!important}
+
+/* Homepage cards use the same readable treatment. */
+body.page-home .quick a,
+body.page-home #news .panel{
+ background:rgba(4,14,24,.70)!important;
+ color:#f5fbff!important;
+ border-color:rgba(180,220,245,.20)!important;
+ backdrop-filter:blur(8px)!important;
+}
+body.page-home .quick b,
+body.page-home .quick span,
+body.page-home #news .panel h2,
+body.page-home #news .panel h3,
+body.page-home #news .panel p,
+body.page-home #news .panel b{color:#f5fbff!important}
+body.page-home .quick span,
+body.page-home #news .panel p{color:rgba(235,245,255,.72)!important}
+
+/* Never let a view inherit the old light section backdrop. */
+body.page-view main>.section{isolation:isolate}
+@media(max-width:760px){
+ .site-header{backdrop-filter:blur(8px)!important}
+ body.page-view .panel,
+ body.page-view .image-card,
+ body.page-view .people-placeholder div,
+ body.page-view .resource-list a,
+ body.page-view .facility{background:rgba(4,14,24,.84)!important}
+}
