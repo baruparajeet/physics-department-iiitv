@@ -71,7 +71,7 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   // Background stars remain mostly fixed relative to the distant universe.
   for(const s of stars){
    s.p+=dt*(.3+s.z);
-   const x=(s.x*w+Math.sin(s.p)*3*s.z+w)%w,y=s.y*h;
+   const x=(s.x*w+t*3.2*s.z)%w,y=s.y*h;
    const tw=.5+.5*Math.sin(s.p),a=.12+.72*s.z*tw;
    ctx.fillStyle='rgba(225,238,255,'+a+')';ctx.beginPath();ctx.arc(x,y,s.r*s.z,0,Math.PI*2);ctx.fill();
    if(s.z>.9&&tw>.94){ctx.strokeStyle='rgba(205,230,255,.28)';ctx.beginPath();ctx.moveTo(x-4,y);ctx.lineTo(x+4,y);ctx.moveTo(x,y-4);ctx.lineTo(x,y+4);ctx.stroke()}
@@ -80,7 +80,7 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   // The Sun/solar system follows a wide orbit around the galactic center.
   // Real timescales are enormously slower; this is an educational visual acceleration.
   const galacticOrbitR=Math.min(w,h)*.30;
-  const solarAngle=t*.035;
+  const solarAngle=Math.PI+t*.035;
   const sx=gcx+Math.cos(solarAngle)*galacticOrbitR;
   const sy=gcy+Math.sin(solarAngle)*galacticOrbitR*.43;
   ctx.save();ctx.translate(gcx,gcy);ctx.rotate(galRot);
