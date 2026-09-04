@@ -84,3 +84,54 @@ body.page-home .quick{margin-top:0}
  body.page-home .hero-physics .hero-text{max-width:330px;font-size:13px}
  body.page-home .hero-physics .hero-actions{margin-top:14px}
 }
+
+/* Robust homepage layout: hero owns its content height so quick links can never overlap it */
+body.page-home .hero-physics{
+  height:auto !important;
+  min-height:620px !important;
+  max-height:none !important;
+  overflow:hidden;
+}
+body.page-home .hero-physics .hero-content{
+  position:relative;
+  min-height:620px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  padding-top:48px;
+  padding-bottom:48px;
+}
+body.page-home .hero-physics .hero-copy{
+  position:relative;
+  z-index:5;
+}
+body.page-home .quick{
+  position:relative;
+  z-index:10;
+  margin-top:0 !important;
+}
+@media(max-width:760px){
+  body.page-home .hero-physics{min-height:600px !important}
+  body.page-home .hero-physics .hero-content{
+    min-height:600px;
+    align-items:flex-start;
+    padding-top:34px;
+    padding-bottom:44px;
+  }
+  body.page-home .hero-physics .hero-text{
+    max-width:360px;
+    line-height:1.6;
+    margin-bottom:0;
+  }
+}
+@media(max-width:480px){
+  body.page-home .hero-physics{min-height:560px !important}
+  body.page-home .hero-physics .hero-content{
+    min-height:560px;
+    padding-top:28px;
+    padding-bottom:38px;
+  }
+  body.page-home .hero-physics .hero-copy{max-width:calc(100% - 4px)}
+  body.page-home .hero-physics .hero-text{max-width:335px;font-size:13px;line-height:1.55}
+  body.page-home .hero-physics .hero-actions{margin-top:14px}
+}
