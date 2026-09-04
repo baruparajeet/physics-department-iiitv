@@ -101,6 +101,81 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
       ctx.strokeStyle='rgba(23,105,170,'+(0.10+scrollP*.10)+')';ctx.lineWidth=1.5;ctx.stroke();
     }
 
+    // Prominent propagating electromagnetic wave inspired by the supplied reference
+    // The wave travels continuously across the hero even when the page is not scrolling.
+    {
+      const wx = w * 0.38;
+      const wy = h * 0.53;
+      const ww = w * 0.64;
+      const amp = Math.min(72, h * 0.13) * (1 + scrollP * 0.18);
+      const cycles = 2.15;
+      const phase = t * 2.2;
+      const show = 0.78;
+
+      ctx.save();
+      ctx.translate(wx, wy);
+
+      // Propagation axis
+      ctx.strokeStyle = 'rgba(70,105,125,.32)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-35,0); ctx.lineTo(ww+35,0); ctx.stroke();
+
+      // Arrow head on propagation direction
+      ctx.fillStyle = 'rgba(70,105,125,.55)';
+      ctx.beginPath();
+      ctx.moveTo(ww+35,0); ctx.lineTo(ww+20,-6); ctx.lineTo(ww+20,6); ctx.closePath(); ctx.fill();
+
+      // Electric-field wave
+      ctx.beginPath();
+      for(let x=0;x<=ww;x+=3){
+        const y=Math.sin((x/ww)*Math.PI*2*cycles-phase)*amp;
+        if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle='rgba(20,145,215,.88)';
+      ctx.lineWidth=3;
+      ctx.shadowBlur=10;
+      ctx.shadowColor='rgba(20,145,215,.38)';
+      ctx.stroke();
+      ctx.shadowBlur=0;
+
+      // Magnetic-field wave, perpendicular visual component
+      ctx.beginPath();
+      for(let x=0;x<=ww;x+=3){
+        const y=Math.cos((x/ww)*Math.PI*2*cycles-phase)*amp*.78;
+        if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle='rgba(120,205,55,.82)';
+      ctx.lineWidth=2.5;
+      ctx.stroke();
+
+      // Field "ribs" make the propagation direction visually obvious.
+      for(let i=0;i<44;i++){
+        const x=(i/43)*ww;
+        const ey=Math.sin((x/ww)*Math.PI*2*cycles-phase)*amp;
+        const my=Math.cos((x/ww)*Math.PI*2*cycles-phase)*amp*.78;
+        ctx.strokeStyle='rgba(20,145,215,.24)';
+        ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,ey); ctx.stroke();
+        ctx.strokeStyle='rgba(120,205,55,.20)';
+        ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,my); ctx.stroke();
+      }
+
+      // Moving energy markers
+      for(let i=0;i<7;i++){
+        const q=((t*.12+i/7)%1);
+        const x=q*ww;
+        const y=Math.sin((x/ww)*Math.PI*2*cycles-phase)*amp;
+        ctx.fillStyle='rgba(20,145,215,.9)';
+        ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+      }
+
+      ctx.fillStyle='rgba(23,105,170,.58)';
+      ctx.font='600 10px Segoe UI,Arial';
+      ctx.fillText('ELECTROMAGNETIC WAVE',0,-amp-13);
+      ctx.restore();
+    }
+
     // Laser beams
     ctx.globalCompositeOperation='screen';
     for(let k=0;k<3;k++){
