@@ -288,3 +288,35 @@ body.page-home .footer{background:rgba(16,34,56,.90)!important}
  #physicsCanvas.site-physics-canvas{opacity:.22!important}
  body:before{background:rgba(255,255,255,.46)!important}
 }
+
+/* === Final visibility correction: canvas above page surfaces, below all content === */
+#physicsCanvas.site-physics-canvas{
+  position:fixed!important;
+  top:0!important;left:0!important;
+  width:100vw!important;height:100vh!important;
+  z-index:1!important;
+  opacity:.24!important;
+  display:block!important;
+  visibility:visible!important;
+  pointer-events:none!important;
+  mix-blend-mode:multiply!important;
+}
+body:before{display:none!important}
+.site-header,main,footer{position:relative!important;z-index:2!important}
+.site-header{background:rgba(255,255,255,.90)!important}
+body.page-home .hero-physics,
+body.page-home .quick,
+body.page-home #news,
+body.page-home .section,
+body.page-home .section-soft,
+body.page-home footer{position:relative!important;z-index:2!important}
+body.page-home .hero-physics{background:rgba(235,245,252,.32)!important}
+body.page-home .quick{background:rgba(255,255,255,.60)!important}
+body.page-home #news{background:rgba(242,247,251,.46)!important}
+body.page-home #news .panel{background:rgba(255,255,255,.78)!important;backdrop-filter:blur(2px)!important}
+body.page-home .quick a{background:rgba(255,255,255,.74)!important;backdrop-filter:blur(2px)!important}
+body.page-home .footer{background:rgba(16,34,56,.90)!important}
+@media(max-width:760px){
+ #physicsCanvas.site-physics-canvas{opacity:.18!important;mix-blend-mode:multiply!important}
+ body.page-home .hero-physics{background:rgba(235,245,252,.48)!important}
+}
