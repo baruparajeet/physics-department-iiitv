@@ -39,3 +39,7 @@
  .hero-physics .hero-scroll-hint span:after{animation:none}
  .hero-physics *{transition:none!important}
 }
+
+#physicsCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.92}
+.hero-physics .physics-stage:before{content:"";position:absolute;inset:0;z-index:2;background:radial-gradient(circle at 70% 48%,rgba(255,255,255,.08),transparent 28%),linear-gradient(90deg,rgba(255,255,255,.62),transparent 52%);pointer-events:none}
+.hero-physics .atom,.hero-physics .electron,.hero-physics .field,.hero-physics .wave-trail,.hero-physics .particle-stream{z-index:3}
