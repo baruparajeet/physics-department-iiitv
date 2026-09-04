@@ -156,3 +156,37 @@ body.page-view .footer.view-active{display:block}
  body.page-home .hero-physics{min-height:550px !important}
  body.page-home .hero-physics .hero-content{min-height:550px}
 }
+
+/* Site-wide physics canvas: subtle background behind every homepage/view */
+body{position:relative}
+#physicsCanvas.site-physics-canvas{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  z-index:0 !important;
+  opacity:.30 !important;
+  pointer-events:none !important;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:rgba(255,255,255,.58);
+}
+header,main,footer{
+  position:relative;
+  z-index:2;
+}
+.hero-physics .physics-stage{background:transparent !important}
+.hero-physics .physics-stage > :not(#physicsCanvas){display:none !important}
+/* Keep content panels readable while allowing the moving physics background to show through */
+.panel,.quick,.stats,.section-title,.card,.image-card,.footer-grid,.footer-bottom{
+  position:relative;
+}
+@media(max-width:760px){
+  #physicsCanvas.site-physics-canvas{opacity:.22 !important}
+  body:before{background:rgba(255,255,255,.66)}
+}
