@@ -363,3 +363,60 @@ body.page-home .footer{position:relative!important;z-index:3!important;backgroun
  #physicsCanvas.site-physics-canvas{opacity:1!important}
  body.page-home .hero-physics{min-height:calc(100vh - 64px)!important}
 }
+
+/* === Galaxy theme: guaranteed text contrast === */
+body.page-home .site-header{
+  background:rgba(2,7,14,.94)!important;
+  color:#f5fbff!important;
+  border-bottom:1px solid rgba(180,220,245,.20)!important;
+}
+body.page-home .site-header .brand-main,
+body.page-home .site-header .brand-sub,
+body.page-home .site-header .department-title,
+body.page-home .site-header .department-title small,
+body.page-home .site-header .utility-links,
+body.page-home .site-header .utility-links a,
+body.page-home .site-header .nav a{
+  color:#f5fbff!important;
+}
+body.page-home .site-header .brand-sub,
+body.page-home .site-header .department-title small,
+body.page-home .site-header .utility-links{opacity:.78}
+body.page-home .site-header .nav{
+  background:rgba(2,7,14,.72)!important;
+}
+body.page-home .site-header .nav a{
+  text-shadow:0 1px 3px rgba(0,0,0,.8)!important;
+}
+body.page-home .site-header .nav a:hover,
+body.page-home .site-header .nav a.active{
+  color:#65c8ff!important;
+}
+body.page-home .site-header .search{
+  background:rgba(255,255,255,.08)!important;
+  border-color:rgba(220,240,255,.25)!important;
+}
+body.page-home .site-header .search input{
+  background:transparent!important;
+  color:#fff!important;
+}
+body.page-home .site-header .search input::placeholder{color:rgba(235,245,255,.62)!important}
+body.page-home .site-header .search span{color:#dff5ff!important}
+body.page-home .hero-physics{
+  color:#fff!important;
+}
+body.page-home .hero-physics .hero-copy,
+body.page-home .hero-physics .hero-copy *{
+  color:#f5fbff!important;
+  text-shadow:0 2px 8px rgba(0,0,0,.48);
+}
+body.page-home .hero-physics .eyebrow,
+body.page-home .hero-physics h2{color:#66caff!important}
+body.page-home .hero-physics .btn.primary{
+  color:#fff!important;text-shadow:none!important;
+}
+body.page-home .hero-physics .btn.ghost{
+  color:#fff!important;background:rgba(4,15,25,.72)!important;
+  border-color:rgba(180,225,250,.45)!important;text-shadow:none!important;
+}
+body.page-home .hero-scroll-hint{color:rgba(235,248,255,.82)!important}
