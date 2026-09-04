@@ -37,12 +37,12 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
  const stars=Array.from({length:900},()=>({x:Math.random(),y:Math.random(),z:.08+Math.random()*.92,r:.25+Math.random()*1.5,p:Math.random()*6.28}));
  const arms=Array.from({length:420},()=>({a:Math.random()*Math.PI*2,r:Math.pow(Math.random(),.62),z:Math.random()}));
  const planets=[
-  {r:.055,size:2.6,color:'155,175,195',speed:2.2},
-  {r:.085,size:3.6,color:'205,155,90',speed:1.55},
-  {r:.125,size:4.3,color:'80,155,225',speed:1.15},
-  {r:.175,size:5.0,color:'205,115,75',speed:.88},
-  {r:.245,size:8.0,color:'175,180,195',speed:.56},
-  {r:.33,size:6.4,color:'150,195,215',speed:.39}
+  {r:.055,size:3.6,color:'155,175,195',speed:2.2},
+  {r:.085,size:4.8,color:'205,155,90',speed:1.55},
+  {r:.125,size:5.8,color:'80,155,225',speed:1.15},
+  {r:.175,size:6.7,color:'205,115,75',speed:.88},
+  {r:.245,size:10.5,color:'175,180,195',speed:.56},
+  {r:.33,size:8.8,color:'150,195,215',speed:.39}
  ];
  function resize(){w=innerWidth;h=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=w*dpr;canvas.height=h*dpr;canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
  function glow(x,y,r,c1,c2){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,c1);g.addColorStop(.28,c2);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}
@@ -81,18 +81,21 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   // Real timescales are enormously slower; this is an educational visual acceleration.
   const galacticOrbitR=Math.min(w,h)*.30;
   const solarAngle=Math.PI+t*.035;
-  const sx=gcx+Math.cos(solarAngle)*galacticOrbitR;
-  const sy=gcy+Math.sin(solarAngle)*galacticOrbitR*.43;
+  // Keep the Solar System visually centered on the homepage so the Sun is the
+  // focal point; the surrounding galaxy continues its slow large-scale motion.
+  const isHome=document.body.classList.contains('page-home');
+  const sx=isHome ? w*.50 : gcx+Math.cos(solarAngle)*galacticOrbitR;
+  const sy=isHome ? h*.50 : gcy+Math.sin(solarAngle)*galacticOrbitR*.43;
   ctx.save();ctx.translate(gcx,gcy);ctx.rotate(galRot);
   ctx.strokeStyle='rgba(120,180,235,.10)';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(0,0,galacticOrbitR,galacticOrbitR*.43,0,0,Math.PI*2);ctx.stroke();ctx.restore();
 
   // Solar-system plane is tilted relative to the viewer.
   const unit=Math.min(w,h),plane=.48;
-  glow(sx,sy,unit*.11,'rgba(255,225,145,.15)','rgba(255,150,35,.055)');
-  glow(sx,sy,unit*.045,'rgba(255,245,190,.55)','rgba(255,150,35,.15)');
+  glow(sx,sy,unit*.13,'rgba(255,225,145,.15)','rgba(255,150,35,.055)');
+  glow(sx,sy,unit*.052,'rgba(255,245,190,.55)','rgba(255,150,35,.15)');
   const sg=ctx.createRadialGradient(sx-unit*.012,sy-unit*.012,0,sx,sy,unit*.034);
   sg.addColorStop(0,'#fffbd8');sg.addColorStop(.42,'rgba(255,213,105,.98)');sg.addColorStop(1,'rgba(235,100,25,.65)');
-  ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,unit*.034,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,unit*.042,0,Math.PI*2);ctx.fill();
 
   // Sun rotation is visualized with surface arcs.
   ctx.save();ctx.translate(sx,sy);ctx.rotate(t*.5);
@@ -107,8 +110,8 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
    const a=t*p.speed+i*1.35;
    const x=sx+rx*Math.cos(a),y=sy+ry*Math.sin(a);
    glow(x,y,p.size*3,'rgba(100,195,245,.07)','rgba(70,130,190,.02)');
-   const pg=ctx.createRadialGradient(x-p.size*.3,y-p.size*.3,0,x,y,p.size);
-   pg.addColorStop(0,'rgba(245,250,255,.95)');pg.addColorStop(.25,'rgba('+p.color+',.95)');pg.addColorStop(1,'rgba('+p.color+',.38)');
+   const pg=ctx.createRadialGradient(x-p.size*.42,y-p.size*.42,0,x+p.size*.15,y+p.size*.15,p.size*1.05);
+   pg.addColorStop(0,'rgba(245,250,255,.95)');pg.addColorStop(.25,'rgba('+p.color+',.95)');pg.addColorStop(.68,'rgba('+p.color+',.72)');pg.addColorStop(.90,'rgba(5,15,28,.72)');pg.addColorStop(1,'rgba(0,0,0,.92)');
    ctx.fillStyle=pg;ctx.beginPath();ctx.arc(x,y,p.size,0,Math.PI*2);ctx.fill();
    if(i===4){ctx.strokeStyle='rgba(215,200,165,.45)';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(x,y,p.size*2.2,p.size*.55,-.25,0,Math.PI*2);ctx.stroke()}
   });
