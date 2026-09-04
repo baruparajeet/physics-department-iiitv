@@ -32,6 +32,9 @@ if(search){search.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const
   const canvas = document.getElementById('physicsCanvas');
   const hero = document.querySelector('.hero-physics');
   if (!canvas || !hero) return;
+  // Make the physics visualization a site-wide background rather than a hero-only graphic.
+  document.body.appendChild(canvas);
+  canvas.classList.add('site-physics-canvas');
   const ctx = canvas.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let w=0,h=0,dpr=1,t=0,scrollP=0,last=performance.now();
