@@ -272,3 +272,19 @@ body.page-view main>.section.view-active{background:rgba(246,249,252,.48)!import
  #physicsCanvas.site-physics-canvas{opacity:.25!important}
  body.page-home .section-soft,body.page-home .section{background:rgba(246,249,252,.52)!important}
 }
+
+/* NEW CINEMATIC PHYSICS BACKGROUND */
+#physicsCanvas.site-physics-canvas{
+ position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;
+ z-index:0!important;opacity:.30!important;pointer-events:none!important;
+}
+body:before{background:rgba(255,255,255,.35)!important;z-index:1!important}
+.site-header,main,footer{position:relative;z-index:2}
+body.page-home .hero-physics .physics-stage{background:transparent!important}
+body.page-home .section-soft,body.page-home .section{background:rgba(246,249,252,.35)!important}
+body.page-home .quick a,body.page-home #news .panel{background:rgba(255,255,255,.78)!important;backdrop-filter:blur(3px)}
+body.page-home .footer{background:rgba(16,34,56,.90)!important}
+@media(max-width:760px){
+ #physicsCanvas.site-physics-canvas{opacity:.22!important}
+ body:before{background:rgba(255,255,255,.46)!important}
+}
