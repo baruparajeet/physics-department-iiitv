@@ -228,3 +228,33 @@ body:before{background:rgba(255,255,255,.72)!important;z-index:1!important}
  #physicsCanvas.site-physics-canvas{opacity:.15!important}
  body:before{background:rgba(255,255,255,.78)!important}
 }
+
+/* FINAL HOMEPAGE + SITEWIDE PHYSICS EXPERIENCE */
+html{scroll-behavior:smooth}
+body{background:#f6f9fc;overflow-x:hidden}
+body.page-home main{display:block!important}
+body.page-home .hero-physics{display:block!important}
+body.page-home .quick{display:grid!important}
+body.page-home #news{display:block!important}
+body.page-home .footer{display:block!important}
+body.page-home .section:not(#news){display:none!important}
+body.page-home .hero-physics{min-height:680px!important;height:680px!important;max-height:none!important}
+body.page-home .hero-physics .hero-content{min-height:680px!important;height:680px!important;box-sizing:border-box}
+body.page-view .hero-physics,body.page-view .quick,body.page-view #news,body.page-view .footer{display:none!important}
+body.page-view main>.section:not(.view-active){display:none!important}
+body.page-view main>.section.view-active{display:block!important}
+body.page-view .footer.view-active{display:block!important}
+#physicsCanvas.site-physics-canvas{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:0!important;opacity:.16!important;pointer-events:none!important}
+body:before{background:rgba(255,255,255,.78)!important;z-index:1!important}
+.site-header,main,footer{position:relative;z-index:2}
+main{background:transparent!important}
+body.page-home .section-soft,body.page-home .section{background:transparent!important}
+body.page-home #news .panel{background:rgba(255,255,255,.90)!important;backdrop-filter:blur(4px)}
+body.page-home .quick a{background:rgba(255,255,255,.90)!important;backdrop-filter:blur(4px)}
+body.page-home .hero-physics .physics-stage{background:transparent!important}
+@media(max-width:760px){
+ body.page-home .hero-physics{min-height:620px!important;height:620px!important}
+ body.page-home .hero-physics .hero-content{min-height:620px!important;height:620px!important}
+ #physicsCanvas.site-physics-canvas{opacity:.12!important}
+ body:before{background:rgba(255,255,255,.84)!important}
+}
